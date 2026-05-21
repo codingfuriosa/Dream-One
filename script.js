@@ -119,7 +119,25 @@ modal.classList.add("active")
 
 })
 
+function unlockPlans(){
+const isUnlocked = localStorage.getItem("formSubmitted");
 
+document.querySelectorAll(".plan-card").forEach(card=>{
+if(isUnlocked){
+card.classList.remove("locked");
+card.classList.add("unlocked");
+}else{
+card.classList.add("locked");
+card.classList.remove("unlocked");
+}
+});
+}
+
+/* RUN ON LOAD */
+window.addEventListener("DOMContentLoaded", unlockPlans);
+
+/* RUN ON PAGE LOAD */
+window.addEventListener("load", unlockPlans);
 
 /* CLOSE MODAL */
 
