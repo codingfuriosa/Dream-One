@@ -7,9 +7,9 @@ const navLinks = document.getElementById("navLinks");
 hamburger.addEventListener("click",()=>{
 
 navLinks.classList.toggle("show");
+hamburger.classList.toggle("active"); // 🔥 ADD THIS
 
 });
-
 
 
 /* HERO SLIDER */
@@ -244,5 +244,45 @@ const navLinksItems = document.querySelectorAll("#navLinks a");
 navLinksItems.forEach(link => {
 link.addEventListener("click", () => {
 navLinks.classList.remove("show");
+hamburger.classList.remove("active"); // 🔥 ADD THIS
 });
+});
+
+
+/* IMAGE LIGHTBOX */
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const closeLightbox = document.querySelector(".close-lightbox");
+
+const planImages = document.querySelectorAll(".plan-card img");
+
+planImages.forEach(img => {
+img.addEventListener("click", () => {
+
+/* ONLY OPEN IF UNLOCKED */
+if(img.closest(".plan-card").classList.contains("locked")) return;
+
+lightbox.classList.add("active");
+lightboxImg.src = img.src;
+});
+});
+
+/* CLOSE */
+closeLightbox.addEventListener("click", () => {
+lightbox.classList.remove("active");
+lightboxImg.classList.remove("zoomed");
+});
+
+/* CLICK OUTSIDE CLOSE */
+lightbox.addEventListener("click", (e) => {
+if(e.target === lightbox){
+lightbox.classList.remove("active");
+lightboxImg.classList.remove("zoomed");
+}
+});
+
+/* ZOOM TOGGLE */
+lightboxImg.addEventListener("click", () => {
+lightboxImg.classList.toggle("zoomed");
 });
