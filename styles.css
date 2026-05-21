@@ -1413,8 +1413,6 @@ box-sizing:border-box;
 font-family:Poppins, sans-serif;
 }
 
-
-
 /* DESKTOP FLOATING BUTTON */
 
 
@@ -1465,216 +1463,313 @@ border-right:1px solid rgba(255,255,255,.3);
 
 
 
-/* MODAL */
+    /* MODAL */
 
-.enquiry-modal{
+    .enquiry-modal{
 
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.65);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.4s;
+
+    z-index:2000;
+
+    }
+
+    .enquiry-modal.active{
+    opacity:1;
+    pointer-events:auto;
+    }
+
+
+
+    .modal-box{
+
+    background:white;
+
+    width:90%;
+    max-width:420px;
+
+    padding:40px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    position:relative;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.3);
+
+    }
+
+
+
+    .close-modal{
+
+    position:absolute;
+
+    right:20px;
+    top:15px;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    }
+
+
+
+    .modal-box h2{
+
+    margin-bottom:8px;
+
+    font-size:26px;
+
+    }
+
+
+    .modal-sub{
+
+    font-size:14px;
+
+    color:#666;
+
+    margin-bottom:25px;
+
+    }
+
+
+
+    /* FORM */
+
+    form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    }
+
+    form input{
+
+    padding:13px;
+
+    border-radius:6px;
+
+    border:1px solid #ddd;
+
+    font-size:14px;
+
+    }
+
+    form button{
+
+    padding:14px;
+
+    border:none;
+
+    background:#1f1f1f;
+
+    color:white;
+
+    border-radius:6px;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    }
+
+/* =======================
+DESKTOP SIDE CTA (FINAL FIX)
+======================= */
+
+.floating-enquiry{
 position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,.65);
-
+right:0;
+top:50%;
+transform:translateY(-50%);
 display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-opacity:0;
-
-pointer-events:none;
-
-transition:.4s;
-
-z-index:2000;
-
-}
-
-.enquiry-modal.active{
-opacity:1;
-pointer-events:auto;
-}
-
-
-
-.modal-box{
-
-background:white;
-
-width:90%;
-max-width:420px;
-
-padding:40px;
-
-border-radius:12px;
-
-text-align:center;
-
-position:relative;
-
-box-shadow:0 25px 60px rgba(0,0,0,.3);
-
-}
-
-
-
-.close-modal{
-
-position:absolute;
-
-right:20px;
-top:15px;
-
-font-size:22px;
-
-cursor:pointer;
-
-}
-
-
-
-.modal-box h2{
-
-margin-bottom:8px;
-
-font-size:26px;
-
-}
-
-
-.modal-sub{
-
-font-size:14px;
-
-color:#666;
-
-margin-bottom:25px;
-
-}
-
-
-
-/* FORM */
-
-form{
-
-display:flex;
-
 flex-direction:column;
-
-gap:15px;
-
+gap:14px;
+z-index:999;
+align-items:flex-end; /* 🔥 IMPORTANT */
 }
 
-form input{
+/* BUTTON */
 
-padding:13px;
+.float-btn{
+display:flex;
+align-items:center;
+gap:12px;
 
-border-radius:6px;
+/* anchor to right */
+justify-content:flex-start;
 
-border:1px solid #ddd;
+/* fixed height */
+height:60px;
+width:60px;
 
-font-size:14px;
+/* padding */
+padding-left:16px;
 
-}
-
-form button{
-
-padding:14px;
-
+/* design */
+background:#1a1a1f;
+color:#fff;
 border:none;
-
-background:#1f1f1f;
-
-color:white;
-
-border-radius:6px;
-
-font-size:15px;
-
 cursor:pointer;
+text-decoration:none;
 
+/* semi circle */
+border-radius:30px 0 0 30px;
+
+/* KEY FIX */
+margin-left:auto; /* 🔥 locks right edge */
+
+transition:width .35s ease, background .3s ease, box-shadow .3s ease;
+overflow:hidden;
 }
 
-.floating-enquiry {
-  position: fixed;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  background: transparent;
-  z-index: 999;
+/* ICON */
+
+.float-btn i{
+font-size:20px;
+min-width:18px;
 }
 
-/* Both buttons vertical text */
-.float-btn {
-  background: #0f0f0f;
-  color: white;
-  border: none;
-  cursor: pointer;
-  padding: 25px 10px;
-  font-size: 14px;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  white-space: nowrap;
-  width: 40px;  /* fixed width for vertical buttons */
-  line-height: 1.2;
-  margin: 0; /* no gap between buttons */
+/* TEXT HIDDEN */
+
+.float-btn span{
+white-space:nowrap;
+opacity:0;
+transform:translateX(10px);
+transition:.3s;
+font-size:15px;
 }
 
-.float-btn:hover {
-  background:#000;
+/* HOVER → ONLY THIS EXPANDS */
+
+.float-btn:hover{
+width:200px;
+background:#7b3fe4;
+box-shadow:0 10px 30px rgba(123,63,228,.4);
 }
 
-/* MOBILE */
-@media(max-width:768px){
-    .floating-enquiry{
-        display:none;
-    }
+/* TEXT SHOW */
 
-    .mobile-bar{
-        position:fixed;
-        bottom:0;
-        left:0;
-        right:0;
-        display:flex;
-        z-index:999;
-        box-shadow:0 -2px 6px rgba(0,0,0,0.2);
-    }
+.float-btn:hover span{
+opacity:1;
+transform:translateX(0);
+}
 
-    .mobile-bar button,
-    .mobile-bar a{
-        flex:1;
-        text-align:center;
-        padding:16px 0;
-        border:none;
-        color:white;
-        font-size:14px;
-        cursor:pointer;
-        transition:.3s;
-    }
+/* WHATSAPP */
 
-    /* Different background colors for distinction */
-    .mobile-bar .mobile-enquire{
-        background:#1f1f1f; /* dark button */
-    }
+.whatsapp-btn:hover{
+background:#25D366;
+}
 
-    .mobile-bar .mobile-call{
-        background:#333; /* slightly lighter dark */
-        border-left:1px solid rgba(255,255,255,0.1); /* subtle divider */
-    }
+/* =======================
+MOBILE CTA BAR
+======================= */
 
-    /* Optional hover effect */
-    .mobile-bar .mobile-enquire:hover,
-    .mobile-bar .mobile-call:hover{
-        opacity:.9;
-    }
+.mobile-bar{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#0b0b0f;
+display:none; /* hidden by default */
+z-index:999;
+}
+
+/* FLEX ROW */
+
+.mobile-bar{
+display:none;
+}
+
+/* BUTTON BASE */
+
+.mobile-btn{
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:6px;
+padding:12px 5px;
+
+color:#fff;
+text-decoration:none;
+font-size:12px;
+
+background:transparent;
+border:none;
+cursor:pointer;
+}
+
+/* ICON */
+
+.mobile-btn i{
+font-size:18px;
+}
+
+/* TEXT */
+
+.mobile-btn span{
+font-size:12px;
+opacity:0.9;
+}
+
+/* DIVIDER BETWEEN BUTTONS */
+
+.mobile-btn:not(:last-child){
+border-right:1px solid rgba(255,255,255,0.15);
+}
+
+/* HOVER / TAP FEEDBACK */
+
+.mobile-btn:active{
+background:rgba(123,63,228,0.15);
+}
+
+/* WHATSAPP SPECIAL */
+
+.mobile-btn.whatsapp i{
+color:#25D366;
+}
+
+/* =======================
+SHOW ONLY ON MOBILE/TABLET
+======================= */
+
+@media(max-width:1024px){
+
+.floating-enquiry{
+display:none;
+}
+
+.mobile-bar{
+display:flex; /* show here */
 }
 
 /* SECTION */
