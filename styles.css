@@ -147,29 +147,60 @@ opacity:.8;
 /* HAMBURGER */
 
 .hamburger{
-
 display:none;
-
-flex-direction:column;
-
-gap:7px;
-
+width:30px;
+height:22px;
+position:relative;
 cursor:pointer;
-
+z-index:1001;
 }
 
 .hamburger span{
-
-width:28px;
-height:3px;
-
+position:absolute;
+width:100%;
+height:2.5px;
 background:var(--purple);
+left:0;
+border-radius:2px;
 
-display:block;
-
+/* 🔥 IMPORTANT FOR ANIMATION */
+transition:transform 0.35s ease, opacity 0.25s ease, top 0.35s ease, bottom 0.35s ease;
 }
 
+/* DEFAULT STATE */
 
+.hamburger span:nth-child(1){
+top:0;
+transform:rotate(0);
+}
+
+.hamburger span:nth-child(2){
+top:50%;
+transform:translateY(-50%) scaleX(1);
+}
+
+.hamburger span:nth-child(3){
+bottom:0;
+transform:rotate(0);
+}
+
+/* ACTIVE STATE (CROSS) */
+
+.hamburger.active span:nth-child(1){
+top:50%;
+transform:translateY(-50%) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2){
+opacity:0;
+transform:translateY(-50%) scaleX(0);
+}
+
+.hamburger.active span:nth-child(3){
+bottom:auto;
+top:50%;
+transform:translateY(-50%) rotate(-45deg);
+}
 /* HERO */
 
 .hero{
@@ -1245,22 +1276,27 @@ font-family: "Playfair Display", serif;
 background:#f8f8fc;
 }
 
+/* HEADER */
+
 .plans-header{
 text-align:center;
 margin-bottom:40px;
-
 }
 
 .plans-header h2{
-font-size:32px;
+font-size:50px;
 font-weight:700;
-font-family: 'Playfair Display', serif;
+font-family: Playfair Display, sans-serif;
 }
 
 .plans-header p{
 color:#666;
 margin-top:8px;
 }
+
+
+
+/* TABS */
 
 .plans-tabs{
 display:flex;
@@ -1275,20 +1311,15 @@ border-radius:40px;
 border:1px solid #ddd;
 background:white;
 cursor:pointer;
-font-weight:500;
 transition:0.3s;
 }
 
 .tab-btn.active{
 background:#4F3AA6;
 color:white;
-border-color:#4F3AA6;
-box-shadow:0 6px 18px rgba(79,58,166,0.25);
 }
 
-.tab-btn:hover{
-transform:translateY(-2px);
-}
+/* CONTENT */
 
 .plans-content{
 display:none;
@@ -1296,114 +1327,217 @@ display:none;
 
 .plans-content.active{
 display:block;
-animation:fade 0.5s ease;
 }
 
-@keyframes fade{
-from{opacity:0; transform:translateY(10px);}
-to{opacity:1; transform:translateY(0);}
+/* GRID */
+
+.floor-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
 }
 
+/* CARD */
 
-/* --- Master Plan Fixes --- */
-.master-plan-card {
-    position: relative;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.plan-card{
+position:relative;
+border-radius:14px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+background: transparent;
 }
 
-.master-plan-card img {
-    width: 100%;
-    height: auto; /* Let the image dictate the height */
-    display: block;
-    transition: 0.6s;
+/* IMAGE */
+
+.plan-card img{
+width:100%;
+aspect-ratio:16/9;
+object-fit:contain;
+padding:15px;
 }
 
-/* Remove the overlay completely */
-.plan-overlay {
-    display: none !important;
+/* LOCK EFFECT */
+
+.plan-card.locked img{
+filter:brightness(1.2) grayscale(0.2) opacity(0.4);
 }
 
-/* --- Floor Plan Grid & Spacing Fixes --- */
-.floor-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+/* OVERLAY */
+
+.plan-lock{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+/* REMOVE WHITE BG */
+background:transparent;
 }
 
-.plan-card {
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    transition: 0.35s;
+/* ADD FADE USING BEFORE */
+
+.plan-card.locked::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,0.6);
+z-index:1;
 }
 
-.plan-card img {
-    width: 100%;
-    /* Remove fixed height to eliminate the white gaps */
-    height: auto; 
-    aspect-ratio: 16 / 9; /* Keeps all cards uniform without cropping */
-    object-fit: contain;
-    background: #fdfdfd; 
-    padding: 15px; /* Small padding so plan doesn't touch edges */
+/* REMOVE FADE WHEN UNLOCKED */
+.plan-card.unlocked::before{
+display:none;
 }
 
-.plan-info {
-    padding: 12px 20px; /* Reduced vertical padding */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #f0f0f0;
+/* KEEP BUTTON ABOVE */
+
+.plan-lock button{
+position:relative;
+z-index:2;
+background:#111;
+color:#fff;
 }
 
-/* --- Responsiveness & Mobile Tweaks --- */
-@media (max-width: 768px) {
-    .plans-section {
-        padding: 80px 5%;
-    }
+/* BUTTON */
 
-    .master-plan-card img {
-        /* On mobile, if the image is too wide, 
-           it will automatically scale down and remain visible */
-        width: 100%;
-        height: auto;
-    }
-
-    /* If the Master Plan image is vertical/tall, 
-       ensure it doesn't take over the whole screen */
-    .master-plan-card {
-        max-height: 500px;
-        overflow-x: auto; /* Allows side-scrolling if image is ultra-wide */
-    }
-}
-.plan-overlay button{
-margin-top:10px;
-padding:10px 20px;
-background:#4F3AA6;
+.plan-lock button{
+background:#111;
+color:#fff;
 border:none;
-color:white;
+padding:12px 24px;
 border-radius:30px;
 cursor:pointer;
-} 
-
-.plan-info h4{
-font-size:16px;
-font-weight:600;
+transition:0.3s;
 }
 
-.plan-info span{
-color:#4F3AA6;
-font-weight:500;
+.plan-lock button:hover{
+background:#4F3AA6;
 }
 
+/* INFO */
+
+.plan-info{
+padding:12px 20px;
+display:flex;
+justify-content:space-between;
+border-top:1px solid #eee;
+}
+
+/* UNLOCKED */
+
+.plan-card.unlocked img{
+filter:none;
+}
+
+.plan-card.unlocked .plan-lock{
+display:none;
+}
+
+/* LIGHTBOX BACKDROP */
+.image-lightbox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+backdrop-filter:blur(8px);
+display:flex;
+align-items:center;
+justify-content:center;
+opacity:0;
+visibility:hidden;
+transition:0.3s ease;
+z-index:9999;
+}
+
+/* ACTIVE */
+.image-lightbox.active{
+opacity:1;
+visibility:visible;
+}
+
+/* IMAGE */
+.image-lightbox img{
+max-width:90%;
+max-height:85%;
+border-radius:12px;
+transition:transform 0.4s ease;
+cursor:zoom-in;
+}
+
+/* ZOOM STATE */
+.image-lightbox img.zoomed{
+transform:scale(1.8);
+cursor:zoom-out;
+}
+
+/* CLOSE BUTTON */
+.close-lightbox{
+position:absolute;
+top:25px;
+right:35px;
+font-size:30px;
+color:#fff;
+cursor:pointer;
+opacity:0.8;
+transition:0.3s;
+}
+
+.close-lightbox:hover{
+opacity:1;
+}
+
+@media(max-width:768px){
+
+.image-lightbox{
+align-items:flex-start; /* start from top */
+overflow-y:auto; /* allow vertical scroll */
+padding:20px 10px;
+}
+
+.image-lightbox img{
+width:auto; /* 🔥 key */
+height:auto;
+max-height:none; /* remove restriction */
+max-width:100%;
+object-fit:contain;
+}
+
+}
+
+@media(max-width:768px){
+
+.image-lightbox{
+overflow:hidden;
+}
+
+/* ROTATE IMAGE */
+.image-lightbox img{
+transform:rotate(90deg);
+max-width:none;
+width:90vh;   /* 🔥 use viewport height */
+height:auto;
+}
+
+/* ZOOM STATE (combine rotate + zoom) */
+.image-lightbox img.zoomed{
+transform:rotate(90deg) scale(1.3);
+}
+
+.plans-header h2{
+font-size: 30px;
+}
+
+}
 
 
 *{
@@ -1412,6 +1546,8 @@ padding:0;
 box-sizing:border-box;
 font-family:Poppins, sans-serif;
 }
+
+
 
 /* DESKTOP FLOATING BUTTON */
 
@@ -1772,6 +1908,8 @@ display:none;
 display:flex; /* show here */
 }
 
+}
+
 /* SECTION */
 
 .video-section{
@@ -1919,24 +2057,30 @@ padding-bottom: 80px;
 
 }
 
-/* MOBILE BROCHURE BAR */
+/* =======================
+BROCHURE SECTION (ALL DEVICES)
+======================= */
 
 .mobile-brochure{
-display:none;
-position: fixed;
-bottom:0;
-left:0;
-width:100%;
-padding:40px;
-border-top:1px solid rgba(255,255,255,0.08);
-z-index:10000;
-}
+display:flex;
+justify-content:center; /* center button */
+align-items:center;
 
+width:100%;
+padding:40px 20px; /* FIXED padding */
+
+border-top:1px solid rgba(255,255,255,0.08);
+
+position:relative;
+z-index:10;
+}
 
 /* BUTTON */
 
 .mobile-brochure-btn{
 width:100%;
+max-width:320px; /* 🔥 KEY FIX (desktop width control) */
+
 background:#7b3fe4;
 color:white;
 border:none;
@@ -1944,31 +2088,31 @@ padding:15px;
 font-size:16px;
 border-radius:40px;
 cursor:pointer;
-box-shadow:0 10px 25px rgba(123,63,228,.5);
+
+box-shadow:0 10px 25px rgba(123,63,228,.4);
 transition:.3s;
 }
 
+/* HOVER */
+
 .mobile-brochure-btn:hover{
 transform:translateY(-2px);
-box-shadow:0 15px 35px rgba(123,63,228,.7);
+box-shadow:0 15px 35px rgba(123,63,228,.6);
 }
 
+/* =======================
+MOBILE TWEAK
+======================= */
 
-/* SHOW ONLY TABLET + MOBILE */
-
-@media(max-width:1024px){
+@media(max-width:768px){
 
 .mobile-brochure{
-display:block;
+padding:30px 16px;
 }
 
-.floating-enquiry{
-display:none;
-}
-
-.mobile-brochure{
-position: relative;
-z-index: 999;
+.mobile-brochure-btn{
+max-width:100%; /* full width on mobile */
+font-size:15px;
 }
 
 }
@@ -1989,7 +2133,7 @@ margin-bottom:70px;
 }
 
 .gallery-header h2{
-font-size:32px;
+font-size:50px;
 font-family:'Playfair Display',serif;
 color:#111;
 }
@@ -2188,6 +2332,11 @@ grid-template-columns:1fr;
 .gallery-section{
 padding:70px 6%;
 }
+
+.gallery-header h2{
+font-size: 30px;
+}
+
 }
 
 /* FOOTER BASE */
@@ -2377,7 +2526,7 @@ align-items:flex-start;
 
 .heading{
 font-family:'Playfair Display',serif;
-font-size:32px;
+font-size:50px;
 margin-bottom:10px;
 }
 
@@ -2448,8 +2597,9 @@ width:40%;
 display:flex;
 gap:25px;
 margin-bottom:20px;
-align-items: center;
-margin-left: 40px;
+align-items:center;
+justify-content:center; /* CENTER */
+margin-left:0; /* REMOVE OFFSET */
 }
 
 .tab{
@@ -2495,10 +2645,15 @@ width:100%;
 .map-view iframe,
 .map-view img{
 width:100%;
-height:220px;
+height:300px;
 border:none;
 border-radius:12px;
 }
+
+.heading {
+font-size: 30px;
+}
+
 }
 
 .heading-divider{
@@ -2538,7 +2693,7 @@ margin-bottom:60px;
 
 .legacy-title{
 font-family:'Playfair Display',serif;
-font-size:36px;
+font-size:50px;
 color:#111;
 margin-bottom:10px;
 }
